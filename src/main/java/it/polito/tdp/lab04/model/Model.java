@@ -32,4 +32,15 @@ public class Model {
 		Collections.sort(result);
 		return result;
 	}
+	
+	public Studente getStudenteByMatricola(int matricola) {
+		for(Studente s : this.studenteDao.getStudenti()) {
+			if( s.matricola==matricola)
+				return s;
+		}
+		return null;
+	}
+	public List<Studente> getStudentiByCorso(Corso corso){
+		return this.corsoDao.getStudentiIscrittiAlCorso(corso);
+	}
 }

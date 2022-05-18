@@ -63,9 +63,40 @@ public class CorsoDAO {
 	/*
 	 * Ottengo tutti gli studenti iscritti al Corso
 	 */
-	public void getStudentiIscrittiAlCorso(Corso corso) {
-		// TODO
+	public List<Studente> getStudentiIscrittiAlCorso(Corso corso) {
+         final String sql ="SELECT * "
+         		+ "FROM iscrizione i, studente s "
+         		+ "WHERE codins=? AND s.matricola=i.matricola";
+         List<Studente> studenti= new LinkedList<>();
+         try {
+ 			Connection conn = ConnectDB.getConnection();
+ 			PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, corso.getCodins());
+ 			ResultSet rs = st.executeQuery();
+ 			while (rs.next()) {
+
+				int matricola = rs.getInt("matricola");
+				String nome = rs.getString("nome");
+				String cognome = rs.getString("cognome");
+				String CDS = rs.getString("CDS");
+
+				Studente s= new Studente(matricola,nome,cognome,CDS);
+				studenti.add(s);
+				// Crea un nuovo JAVA Bean Corso
+				// Aggiungi il nuovo oggetto Corso alla lista corsi
+			}
+
+			conn.close();
+			
+			return studenti;
+			
+
+		} catch (SQLException e) {
+			// e.printStackTrace();
+			throw new RuntimeException("Errore Db", e);
+		}
 	}
+
 
 	/*
 	 * Data una matricola ed il codice insegnamento, iscrivi lo studente al corso.

@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.lab04.model.Model;
+import it.polito.tdp.lab04.model.Studente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -66,13 +67,25 @@ public class FXMLController {
 
     @FXML
     void doCercaStudente(ActionEvent event) {
+    	txtRisultato.clear();
+    	txtNome.clear();
+    	txtCognome.clear();
+    	String matricola= txtMatricola.getText();
+    	try {
+    		int codice= Integer.parseInt(matricola);
+    		Studente studente= this.model.getStudenteByMatricola(codice);
+    		if(studente==null) {
+    		txtRisultato.appendText("Inserire una matricola");
+    		}
+    		txtNome.appendText(studente.getNome());
+    		txtCognome.appendText(studente.getCognome());
+    	}catch(NumberFormatException e) {
+    		e.printStackTrace();
+    		System.err.println("Errore nel convertire la stringa");
+    	}
 
     }
 
-    @FXML
-    void doCorsi(ActionEvent event) {
-
-    }
 
     @FXML
     void doIscrivi(ActionEvent event) {
@@ -81,6 +94,11 @@ public class FXMLController {
 
     @FXML
     void doPulisci(ActionEvent event) {
+    	txtRisultato.clear();
+    	txtNome.clear();
+    	txtCognome.clear();
+    	txtMatricola.clear();
+    	boxCorsi.getItems().removeAll();
 
     }
 
